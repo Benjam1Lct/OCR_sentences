@@ -93,7 +93,7 @@ aug = ImageDataGenerator(rotation_range=10, zoom_range=0.05, width_shift_range=0
 # initialize and compile our deep neural network
 print("[INFO] compiling model...")
 
-opt = SGD(learning_rate=INIT_LR)
+opt = SGD(learning_rate=INIT_LR, decay=INIT_LR / EPOCHS)
 model = ResNet.build(32, 32, 1, len(le.classes_), (3, 3, 3),
                      (64, 64, 128, 256), reg=0.0005)
 model.compile(loss="categorical_crossentropy",
