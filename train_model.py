@@ -3,10 +3,14 @@ import cv2
 import argparse
 import numpy as np
 import matplotlib.pyplot as plt
+import tensorflow as tf
+try: [tf.config.experimental.set_memory_growth(gpu, True) for gpu in tf.config.experimental.list_physical_devices('GPU')]
+except: pass
+
 from sklearn.metrics import classification_report
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import LabelBinarizer
-from tensorflow.keras.optimizers import SGD
+from tensorflow.keras.optimizers import SGD, legacy
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
 from imutils import build_montages
 
@@ -32,7 +36,7 @@ args = vars(ap.parse_args())
 
 # initialize the number of epochs to train for, initial learning rate,
 # and batch size
-EPOCHS = 1
+EPOCHS = 50
 INIT_LR = 1e-1
 BS = 128
 
@@ -89,7 +93,7 @@ aug = ImageDataGenerator(rotation_range=10, zoom_range=0.05, width_shift_range=0
 # initialize and compile our deep neural network
 print("[INFO] compiling model...")
 
-opt = SGD(learning_rate=INIT_LR, decay=INIT_LR / EPOCHS)
+opt = SGD(learning_rate=INIT_LR)
 model = ResNet.build(32, 32, 1, len(le.classes_), (3, 3, 3),
                      (64, 64, 128, 256), reg=0.0005)
 model.compile(loss="categorical_crossentropy",
@@ -115,7 +119,7 @@ print(classification_report(testY.argmax(axis=1),
                             predictions.argmax(axis=1), target_names=labelNames))
 
 # save the model to disk
-print()
+print("[INFO] saving the model...")
 model.save(args["model"], save_format="h5")
 
 # construct a plot that plots and saves the training history
