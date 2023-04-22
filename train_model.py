@@ -119,7 +119,7 @@ print(classification_report(testY.argmax(axis=1),
                             predictions.argmax(axis=1), target_names=labelNames))
 
 # save the model to disk
-print("[INFO] saving the model...")
+print("[INFO] saving model...")
 model.save(args["model"], save_format="h5")
 
 # construct a plot that plots and saves the training history
