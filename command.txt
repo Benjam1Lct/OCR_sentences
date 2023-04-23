@@ -1,0 +1,1 @@
+& C:/Users/Etudiant/AppData/Local/Programs/Python/Python39/python.exe train_model.py --az ..\a_z_handwritten_data.csv --model trained_orc.model --plot plot.png
