@@ -36,7 +36,7 @@ args = vars(ap.parse_args())
 
 # initialize the number of epochs to train for, initial learning rate,
 # and batch size
-EPOCHS = 50
+EPOCHS = 200
 INIT_LR = 1e-1
 BS = 128
 
@@ -96,6 +96,7 @@ print("[INFO] compiling model...")
 opt = SGD(learning_rate=INIT_LR, decay=INIT_LR / EPOCHS)
 model = ResNet.build(32, 32, 1, len(le.classes_), (3, 3, 3),
                      (64, 64, 128, 256), reg=0.0005)
+model.summary()
 model.compile(loss="categorical_crossentropy",
               optimizer=opt, metrics=["accuracy"])
 
